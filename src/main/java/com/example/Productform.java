@@ -1,3 +1,5 @@
+package com.example;
+
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -259,9 +261,9 @@ public void Connect() {
                 JOptionPane.showMessageDialog( this," Record Added ! successfully");
                 txtPname.setText("");
                 txtPrice.setText("");
-                txtQty.setText("");
-                
-                
+                txtQty.setText("");    
+            } else {
+            JOptionPane.showMessageDialog( this," Record failed to be saved !!");
             }
         } catch (SQLException ex) {
             Logger.getLogger(Productform.class.getName()).log(Level.SEVERE, null, ex);
