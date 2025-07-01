@@ -11,22 +11,25 @@ public class Productform extends javax.swing.JFrame {
      */
     public Productform() {
         initComponents();
+        Connect();
+ 
+        
     }
 Connection con;
 PreparedStatement pst;
 
 
 public void Connect() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost/javacrud","root","n@");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Productform.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Productform.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/javacrud", "root", "n@");
+        System.out.println("✅ Connexion à MySQL réussie !");
+    } catch (ClassNotFoundException | SQLException ex) {
+        Logger.getLogger(Productform.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(this, "Erreur de connexion à la base de données !");
+    }
 }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -249,12 +252,11 @@ public void Connect() {
             String price = txtPrice.getText();
             String qty = txtQty.getText();
             
-            pst =con.prepareStatement(" INSERT INTO product_tbl (pname,price,qty) VALUES (7,7,7)");
-            
-            pst.setString(1, pname);
-            pst.setString(2,price);
-            pst.setString(3, qty);
-            
+            pst = con.prepareStatement("INSERT INTO product_tbl (pname, price, qty) VALUES (?, ?, ?)");
+    pst.setString(1, pname);
+    pst.setString(2, price);
+    pst.setString(3, qty);
+
             int k = pst.executeUpdate();
             
             if( k==1){
@@ -311,10 +313,8 @@ public void Connect() {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Productform().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Productform().setVisible(true);
         });
     }
 
