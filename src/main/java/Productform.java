@@ -1,12 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
-/**
- *
- * @author azula
- */
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 public class Productform extends javax.swing.JFrame {
 
     /**
@@ -15,7 +10,21 @@ public class Productform extends javax.swing.JFrame {
     public Productform() {
         initComponents();
     }
+Connection con;
+PreparedStatement pst;
 
+
+public void Connect() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con=DriverManager.getConnection("jdbc:mysql://localhost/javacrud","root","n@");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Productform.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Productform.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -232,7 +241,32 @@ public class Productform extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            String pname = txtPname.getText();
+            String price = txtPrice.getText();
+            String qty = txtQty.getText();
+            
+            pst =con.prepareStatement(" INSERT INTO product_tbl (pname,price,qty) VALUES (7,7,7)");
+            
+            pst.setString(1, pname);
+            pst.setString(2,price);
+            pst.setString(3, qty);
+            
+            int k = pst.executeUpdate();
+            
+            if( k==1){
+                JOptionPane.showMessageDialog( this," Record Added ! successfully");
+                txtPname.setText("");
+                txtPrice.setText("");
+                txtQty.setText("");
+                
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Productform.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void txtPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceActionPerformed
